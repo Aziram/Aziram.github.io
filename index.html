@@ -24,7 +24,12 @@
 			<form id="signup-form" method="post" action="#">
 				<input type="text" name="steamID" id="steamID" placeholder="Steam ID"/>
 				<input type="submit" value="Get Steam Stats" id="getsteamstats"/>
-				<input type="button" id ="getcsgostats" value="Get CS:GO stats">
+				<input type="button" id ="getcsgostats" value="Get CS:GO stats"/>
+
+				<input type="button" id="renderBtn" value="Render">
+				<div class="container">
+					<canvas id="myChart" width="400" height="400"></canvas>
+				</div>
 			</form>
 
 			<div>
@@ -34,6 +39,8 @@
 			<div>
 					<p id="csgostats"></p>
 			</div>
+
+
 
 		<!-- Footer -->
 			<footer id="footer">
@@ -53,6 +60,8 @@
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js" integrity="sha256-MZo5XY1Ah7Z2Aui4/alkfeiq3CopMdV/bbkc/Sh41+s=" crossorigin="anonymous"></script>
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/run.js"></script>
+			<script src="assets/js/chart.js"></script>
+
 
 	</body>
 </html>

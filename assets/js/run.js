@@ -1,3 +1,5 @@
+var steamGlobal = {}
+
 $(function () {
 
     $("input#getsteamstats").click(runsteam);
@@ -63,7 +65,6 @@ function addSteamStats(data) {
 function runsteam(e) {
     // Prevent submit tag behavior.
     e.preventDefault();
-
 
     // Retrieve the field value and call the API.
     var steamid = $("input#steamID").val();
@@ -142,52 +143,58 @@ function runcsgo(e) {
 
 //##################################
 
+//Add chart
 
 
-// Create chart
-/*
-//##################################
-function getComparation(steamid) {
-    // Declare variables.
-    var data = {}, total_kills = [];
 
-    // First AJAX request:
-    $.get({
-        //cors.io to patch Cross-Origin Request blocked
-        url: 'https://cors.io/?http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=6FCCD68CF567B34B85E74EE6237927DF&steamid=' + steamid,
-        success: function (data) {
-
-          //console.log(data)
-
-          //Because of cors.io we have to parse into json
-          obj = JSON.parse(data);
-          for (var statsnumber in obj.playerstats.stats){
-            if(obj.playerstats.stats[statsnumber].name == "total_kills"){
-              totalkills.push(
-                [obj.playerstats.stats[statsnumber].name,
-                obj.playerstats.stats[statsnumber].value])
-            }
-          }
-          console.log(totalkills)
-            // On success, create a literal object for today's weather.
-          /*  csgoGlobal = {
-              total_kills: obj.playerstats.stats[0].value,
-
-            };
+function renderChart(data, labels) {
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'This week',
+                data: data,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            }]
         },
-
-    }).done(function () {
-        // When the request is completed, display the card.
-        addcompare(totalkills);
-
-            });
+        options: {
+          scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    }
+                }]
+              }
+        },
+    });
 }
 
-function addccompare(data) {
-    // Append the card to the <main></main> node.
-    $("canvas#comparekills").append(
+$("#renderBtn").click(
+    function () {
+      var steamid = $("input#steamID").val();
 
-    );
-}
-//##################################
-*/
+      $.get({
+          //cors.io to patch Cross-Origin Request blocked
+          url: 'https://cors.io/?http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=6FCCD68CF567B34B85E74EE6237927DF&steamids=' + steamid,
+          success: function (data) {
+
+            //Because of cors.io we have to parse into json
+            obj = JSON.parse(data);
+
+            //Data we want to retrieve
+            var name = obj.response.players[0].personaname;
+
+          },
+
+      }).done(function () {
+          // When the request is completed, display the card.
+          data = [20000, 14000];
+          labels =  [obj.response.players[0].personaname, "monday"];
+          renderChart(data, labels);
+
+      });
+    }
+)
